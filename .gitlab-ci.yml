@@ -1,0 +1,19 @@
+---
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  when: manual
+  image: gableroux/ansible:2.7.10
+  before_script:
+    # https://docs.gitlab.com/ee/ci/ssh_keys/
+    - eval $(ssh-agent -s)
+    - mkdir ~/.ssh/
+    - chmod 700 ~/.ssh
+    - echo "$SSH_CONFIG" > ~/.ssh/config
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  script:
+    - ansible-playbook -K -i inventory playbooks/docker.yml

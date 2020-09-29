@@ -1,0 +1,7 @@
+[servers]
+wsl ansible_host=172.25.134.253 ansible_user=michael remote_user=michael
+server1 ansible_host=5.180.139.53 remote_user=root
+
+[servers:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_private_key_file=~/.ssh/id_rsa
